@@ -31,7 +31,9 @@ int nIndirections(void* initial, unsigned int indirections)
 	int i = 0;
 	for (i=0; i<indirections - 1; i++)
 	{
-		initial = (int *) *initial;
+		int * temp = (int *) intial;
+		initial = *temp;
+		// Desreference a void pt throw an errpr becouse the compiler does not know the long of the object
 	}
 
 	return (int) *initial;
