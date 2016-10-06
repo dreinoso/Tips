@@ -28,13 +28,13 @@ int main (int argc, char **argv)
 int nIndirections(void* initial, unsigned int indirections)
 {
 	int resultFromIndirections = 0;
+	// Desreference a void pt throw an errpr becouse the compiler does not know the long of the object, so the cast is needed
+	int * intInitial = (int*) initial;
 	int i = 0;
 	for (i=0; i<indirections - 1; i++)
 	{
-		int * temp = (int *) intial;
-		initial = *temp;
-		// Desreference a void pt throw an errpr becouse the compiler does not know the long of the object
+		intInitial = *intInitial;
 	}
 
-	return (int) *initial;
+	return (int) *intInitial;
 }
