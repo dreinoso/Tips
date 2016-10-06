@@ -1,38 +1,44 @@
-/*Se pide implementar la función:
-int nIndirections(void* initial, unsigned int indirections);
-La función toma por parámetro la dirección de memoria inicial en forma de puntero a void que
-contendrá una variable de tipo int****..., con tantos asteriscos como indirecciones indique el
-entero sin signo indirections. El valor de retorno de la función será un entero producto de realizar
-N indirecciones al puntero initial.
+/*Se debe implementar una macro llamada offsetOf que, dada una estructura y un campo de la
+misma estructura, retorne la posición relativa de ese campo en la estructura.
 
 Ejemplo:
-int a = 3;
-int* a1 = &a;
-int ** a2 = &a1;
-int result = nIndirections((void*)a2, 2);
-El resultado será 3.*/
-#include <stdio.h>
 
-int nIndirections(void* initial, unsigned int indirections);
+struct S
+{
+	int field1;
+	float field2;
+	char field3[10];
+	char field4;
+}
+se desea poder hacer algo al estilo de:
+size_t pos = offsetOf(struct S, field3);
+(Aclaración: size_t es un entero positivo dependiente de plataforma,
+suficientemente grande como para representar la máxima cantidad de bytes
+allocables en el sistema)
+¿Es posible utilizar esta macro con estructuras que contengan bitfields? ¿Porque?*/
+
+#include <stdio.h>
+#include <string.h>
+
+#define offsetOf(STRUCT, FIELD) ((int)(&STRUCT) - (int)(&FIELD))
+
+struct S
+{
+	int field1;
+	float field2;
+	char field3[10];
+	char field4;
+};
 
 int main (int argc, char **argv)
 {
-	int a = 3;
-	int *a1 = &a;
-	int **a2 = &a1;
-	int result = nIndirections((void*)a2, 2);
-	printf("The result of 2 indirections is %i \n", result);
-	return 0;
-}
+	struct S s;
 
-int nIndirections(void* initial, unsigned int indirections)
-{
-	int resultFromIndirections = 0;
-	int i = 0;
-	for (i=0; i<indirections - 1; i++)
-	{
-		initial = (int *) *initial;
-	}
+   	s.field1 = 10;
+   	s.field2 = 10.10;
+   	strcpy( s.field3, "Foobar....");
+   	s.field4 = 'a';
 
-	return (int) *initial;
+   	size_t pos = offsetOf(s, s.field3);
+	printf("Struct Position\tField Position\tRelative Position\n\t%p\t%p\t%p\n", &s, &s.field3,pos);
 }

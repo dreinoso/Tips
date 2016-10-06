@@ -33,7 +33,7 @@ int nIndirections(void* initial, unsigned int indirections)
 	int i = 0;
 	for (i=0; i<indirections - 1; i++)
 	{
-		intInitial = *intInitial;
+		intInitial = (int*) *intInitial;
 	}
 
 	return (int) *intInitial;

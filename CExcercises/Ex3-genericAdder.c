@@ -13,27 +13,56 @@ cons int result = genericPlus(&array[0], sizeof(struct S), offsetOf(struct S, fi
 El resultado será la suma de todos los field1 de cada estructura S del arreglo array.
 */
 #include <stdio.h>
+#include <string.h>
 
-int nIndirections(void* initial, unsigned int indirections);
+#define offsetOf(STRUCT, FIELD) ((int)(&STRUCT) - (int)(&FIELD))
+
+int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements);
+
+struct S
+{
+	int field1;
+	float field2;
+	char field3[10];
+	char field4;
+};
 
 int main (int argc, char **argv)
 {
-	int a = 3;
-	int *a1 = &a;
-	int **a2 = &a1;
-	int result = nIndirections((void*)a2, 2);
-	printf("The result of 2 indirections is %i \n", result);
+	struct S s1;
+   	s1.field1 = 10;
+   	s1.field2 = 10.10;
+   	strcpy( s1.field3, "Foobar....");
+   	s1.field4 = 'a';
+   	
+   	struct S s2;
+   	s2.field1 = 10;
+   	s2.field2 = 10.10;
+   	strcpy( s2.field3, "Foobar....");
+   	s2.field4 = 'a';
+
+   	struct S s3;
+   	s3.field1 = 10;
+   	s3.field2 = 10.10;
+   	strcpy( s3.field3, "Foobar....");
+   	s3.field4 = 'a';
+
+	struct S array[] = {s1,s2,s3};
+
+	int result = genericPlus(&array[0], sizeof(struct S), offsetOf(s1, s1.field1), sizeof(array)/sizeof(array[0]));
+	printf("The result of the generic adder is: %i \n", result);
+
 	return 0;
 }
 
-int nIndirections(void* initial, unsigned int indirections)
+int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements)
 {
-	int resultFromIndirections = 0;
 	int i = 0;
-	for (i=0; i<indirections - 1; i++)
+	int sumResult = 0;
+	struct S =
+	for (i=0; i < amountOfElements; i = i + 1)
 	{
-		initial = (int *) *initial;
+		sumResult = sumResult + array[i]
 	}
-
-	return (int) *initial;
+	return 0;
 }
