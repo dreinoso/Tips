@@ -59,10 +59,13 @@ int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_
 {
 	int i = 0;
 	int sumResult = 0;
-	struct S =
-	for (i=0; i < amountOfElements; i = i + 1)
+	struct S * sArray  = (struct S *) array; // Do with pointer
+
+	for(i=0; i < amountOfElements; i = i + 1)
 	{
-		sumResult = sumResult + array[i]
+		int algo = (int)fieldOffset;
+		int algo2 = (int) sArray;
+		//sumResult = sumResult + *((int *) 
 	}
 	return 0;
 }
