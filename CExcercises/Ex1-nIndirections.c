@@ -16,11 +16,12 @@ El resultado será 3.*/
 int nIndirections(void* initial, unsigned int indirections);
 
 int main (int argc, char **argv)
-{
+{	
+	int indirections = 2;
 	int a = 3;
 	int *a1 = &a;
 	int **a2 = &a1;
-	int result = nIndirections((void*)a2, 2);
+	int result = nIndirections((void*)a2, indirections);
 	printf("The result of 2 indirections is %i \n", result);
 	return 0;
 }
@@ -28,10 +29,10 @@ int main (int argc, char **argv)
 int nIndirections(void* initial, unsigned int indirections)
 {
 	int resultFromIndirections = 0;
-	// Desreference a void pt throw an errpr becouse the compiler does not know the long of the object, so the cast is needed
+	// Desreference a void pt throw an error because the compiler does't know the long of the object, so the cast is needed
 	int * intInitial = (int*) initial;
-	int i = 0;
-	for (i=0; i<indirections - 1; i++)
+	int desreferencesCount = 0;
+	for (desreferencesCount = 0; i < indirections - 1; desreferencesCount++)
 	{
 		intInitial = (int*) *intInitial;
 	}
