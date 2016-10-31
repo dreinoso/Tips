@@ -1,5 +1,4 @@
-/*
-Se desea hacer un sumador genérico, que tome: un arreglo de estructuras definidas por el
+/*Se desea hacer un sumador genérico, que tome: un arreglo de estructuras definidas por el
 usuario; el tamaño de un campo específico; el offset de dicho campo; y la cantidad de elementos
 del arreglo. Deberá retornar la suma de ese campo en cada estructura del arreglo. Se permite
 utilizar la macro desarrollada en el ejercicio 2.
@@ -65,9 +64,10 @@ int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_
 
 	for(indexOfStructs=0; indexOfStructs < amountOfElements; indexOfStructs ++)
 	{
-		int * tempPoniter = (int *) (sArray + indexOfStructs * (elementSize) + fieldOffset);
-		printf("DEBUG: %i \n", *tempPoniter);   // NOT WORKING...
+		int * tempPoniter = (int *) ((int)sArray + indexOfStructs * (elementSize) + fieldOffset);
+		// A int cast of the struct is needed to the processor doesn't add the length of the struct
+		// example: sArray + x = sArray + x * (sizeof(struct S))  It's characteristic of C compiler
+		sumResult += *tempPoniter;
 	}
-	//return sumResult;
-	return 0;
+	return sumResult;
 }
