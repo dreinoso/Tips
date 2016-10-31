@@ -15,9 +15,10 @@ El resultado será la suma de todos los field1 de cada estructura S del arreglo 
 #include <stdio.h>
 #include <string.h>
 
-#define offsetOf(STRUCT, FIELD) ((int)(&STRUCT) - (int)(&FIELD))
+#define offsetOf(STRUCT, FIELD) ((int)(&FIELD) - (int)(&STRUCT))
 
 int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements);
+//const void*  because not going to modify the memory that the pointer points at
 
 struct S
 {
@@ -32,19 +33,19 @@ int main (int argc, char **argv)
 	struct S s1;
    	s1.field1 = 10;
    	s1.field2 = 10.10;
-   	strcpy( s1.field3, "Foobar....");
+   	strcpy(s1.field3, "Foobar....");
    	s1.field4 = 'a';
    	
    	struct S s2;
-   	s2.field1 = 10;
+   	s2.field1 = 20;
    	s2.field2 = 10.10;
-   	strcpy( s2.field3, "Foobar....");
+   	strcpy(s2.field3, "Foobar....");
    	s2.field4 = 'a';
 
    	struct S s3;
-   	s3.field1 = 10;
+   	s3.field1 = 30;
    	s3.field2 = 10.10;
-   	strcpy( s3.field3, "Foobar....");
+   	strcpy(s3.field3, "Foobar....");
    	s3.field4 = 'a';
 
 	struct S array[] = {s1,s2,s3};
@@ -57,15 +58,16 @@ int main (int argc, char **argv)
 
 int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements)
 {
-	int i = 0;
+	// Like te return tyoe is int, assume that all the fields to add are int
+	int indexOfStructs = 0;
 	int sumResult = 0;
-	struct S * sArray  = (struct S *) array; // Do with pointer
+	struct S * sArray  = (struct S *) array; // Cast to Struct S
 
-	for(i=0; i < amountOfElements; i = i + 1)
+	for(indexOfStructs=0; indexOfStructs < amountOfElements; indexOfStructs ++)
 	{
-		int algo = (int)fieldOffset;
-		int algo2 = (int) sArray;
-		//sumResult = sumResult + *((int *) 
+		int * tempPoniter = (int *) (sArray + indexOfStructs * (elementSize) + fieldOffset);
+		printf("DEBUG: %i \n", *tempPoniter);   // NOT WORKING...
 	}
+	//return sumResult;
 	return 0;
 }

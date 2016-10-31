@@ -17,7 +17,7 @@ int nIndirections(void* initial, unsigned int indirections);
 
 int main (int argc, char **argv)
 {	
-	int indirections = 2;
+	int indirections = 2; // To not use magical values
 	int a = 3;
 	int *a1 = &a;
 	int **a2 = &a1;
@@ -26,13 +26,13 @@ int main (int argc, char **argv)
 	return 0;
 }
 
-int nIndirections(void* initial, unsigned int indirections)
+int nIndirections(void* initial, unsigned int indirections) // A const void * points should not be modified, would fix better
 {
 	int resultFromIndirections = 0;
 	// Desreference a void pt throw an error because the compiler does't know the long of the object, so the cast is needed
 	int * intInitial = (int*) initial;
-	int desreferencesCount = 0;
-	for (desreferencesCount = 0; i < indirections - 1; desreferencesCount++)
+	int desreferencesCount = 0; // Not good using of i,k,k... doesn't give an idea about what the loop does
+	for (desreferencesCount = 0; desreferencesCount < indirections - 1; desreferencesCount++)
 	{
 		intInitial = (int*) *intInitial;
 	}

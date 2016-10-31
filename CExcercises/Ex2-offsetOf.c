@@ -20,7 +20,8 @@ allocables en el sistema)
 #include <stdio.h>
 #include <string.h>
 
-#define offsetOf(STRUCT, FIELD) ((int)(&STRUCT) - (int)(&FIELD))
+//The Field is posicionated in a bigger position of memory, because the 
+#define offsetOf(STRUCT, FIELD) ((int)(&FIELD)-(int)(&STRUCT))
 
 struct S
 {
@@ -41,4 +42,5 @@ int main (int argc, char **argv)
 
    	size_t pos = offsetOf(s, s.field3);
 	printf("Struct Position\tField Position\tRelative Position\n\t%p\t%p\t%p\n", &s, &s.field3,pos);
+	// It's expected: int (4 bytes) + float (4 bytes) => 8
 }
