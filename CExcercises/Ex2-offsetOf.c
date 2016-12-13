@@ -15,13 +15,17 @@ size_t pos = offsetOf(struct S, field3);
 (Aclaración: size_t es un entero positivo dependiente de plataforma,
 suficientemente grande como para representar la máxima cantidad de bytes
 allocables en el sistema)
-¿Es posible utilizar esta macro con estructuras que contengan bitfields? ¿Porque?*/
+
+¿Es posible utilizar esta macro con estructuras que contengan bitfields? ¿Porque?
+Rta: 
+*/
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
-//The Field is posicionated in a bigger position of memory, because the 
-#define offsetOf(STRUCT, FIELD) ((int)(&FIELD)-(int)(&STRUCT))
+/* The FIELD is positionated in a bigger position of memory */
+#define offsetOf(STRUCT, FIELD) ((long unsigned int)(&FIELD)-(long unsigned int)(&STRUCT))
 
 struct S
 {
@@ -31,16 +35,20 @@ struct S
 	char field4;
 };
 
-int main (int argc, char **argv)
+int main ()
 {
-	struct S s;
+	struct S myStruct;
+	size_t pos = 0;
 
-   	s.field1 = 10;
-   	s.field2 = 10.10;
-   	strcpy( s.field3, "Foobar....");
-   	s.field4 = 'a';
+   	myStruct.field1 = 10;
+   	myStruct.field2 = 10.10;
+   	strcpy( myStruct.field3, "Foobar....");
+   	myStruct.field4 = 'a';
 
-   	size_t pos = offsetOf(s, s.field3);
-	printf("Struct Position\tField Position\tRelative Position\n\t%p\t%p\t%p\n", &s, &s.field3,pos);
-	// It's expected: int (4 bytes) + float (4 bytes) => 8
+   	pos = offsetOf(myStruct, myStruct.field3);
+
+	/* It's expected: int (4 bytes) + float (4 bytes) => 8 */
+	printf("Struct Position\tField Position\tRelative Position\n\t%li\t%li\t%li\n", (long int) &myStruct, (long int) &myStruct.field3,pos);
+	
+	return (EXIT_SUCCESS);
 }
