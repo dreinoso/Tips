@@ -16,8 +16,8 @@ size_t pos = offsetOf(struct S, field3);
 suficientemente grande como para representar la máxima cantidad de bytes
 allocables en el sistema)
 
-¿Es posible utilizar esta macro con estructuras que contengan bitfields? ¿Porque?
-Rta: 
+¿Es posible utilizar esta macro con estructuras que contengan bitfields? ¿Por que?
+Rta: No, porque los bits se definen como unsigned int y ocupan en memoria un byte, no un bit.
 */
 
 #include <stdio.h>
