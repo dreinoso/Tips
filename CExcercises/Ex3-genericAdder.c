@@ -16,7 +16,7 @@ El resultado será la suma de todos los field1 de cada estructura S del arreglo 
 
 #define offsetOf(STRUCT, FIELD) ((long unsigned int)(&FIELD)-(long unsigned int)(&STRUCT))
 
-int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements);
+static int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements);
 /*const void*  because not going to modify the memory that the pointer points at*/
 
 struct S
@@ -33,6 +33,7 @@ int main ()
   	struct S s2;
    	struct S s3;
    	struct S arrayOfStructs[3];
+   	int result = 0;
 
    	s1.field1 = 10;
    	s1.field2 = 10.10;
@@ -53,24 +54,26 @@ int main ()
 	arrayOfStructs[1] = s2;
 	arrayOfStructs[2] = s3;
 
-	int result = genericPlus(&arrayOfStructs[0], sizeof(struct S), offsetOf(s1, s1.field1), sizeof(arrayOfStructs)/sizeof(arrayOfStructs[0]));
+	result = genericPlus(&arrayOfStructs[0], sizeof(struct S), offsetOf(s1, s1.field1), sizeof(arrayOfStructs)/sizeof(arrayOfStructs[0]));
 	printf("The result of the generic adder is: %i \n", result);
 
 	return 0;
 }
 
-int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements)
+static int genericPlus(const void* array, size_t elementSize, size_t fieldOffset, size_t amountOfElements)
 {
 	/* Like the return tyoe is int, assume that all the fields to add are int*/
 	unsigned int indexOfStructs = 0;
 	int sumResult = 0;
 	struct S * sArray  = (struct S *) array; /* Cast to Struct S */
+	unsigned long arrayBeginning = (unsigned long)sArray;
+	int * tempPointer;
+	int totalOffset;
 
 	for(; indexOfStructs < amountOfElements; indexOfStructs ++)
 	{
-		int * tempPointer = (int *) ((int)sArray + indexOfStructs * (elementSize) + fieldOffset);
-		/*A int cast of the struct is needed to the processor doesn't add the length of the struct
-		  example: sArray + x = sArray + x * (sizeof(struct S))  It's characteristic of C compiler*/
+		totalOffset = (indexOfStructs * elementSize) + fieldOffset;
+		tempPointer = (int *) (arrayBeginning + totalOffset);
 		sumResult += *tempPointer;
 	}
 	return sumResult;
