@@ -22,15 +22,10 @@ Si se considera necesario se podrán agregar más macros.
 Restricción: Todas las macros deberán tener a lo sumo una línea, excepto la macro declare_list_type.
 
 Ejemplo de uso del tipo genérico:
-
 // main.c
-
 #include “genericList.h”
-
 declare_list_type(int, ListOfInts);
-
 int main (void)
-
 {
 	ListOfInts l;
 	init_list(int, ListofInts, l);
@@ -38,6 +33,7 @@ int main (void)
 	return 0;
 }
 */
+
 #include <stdio.h>
 #include “genericList.h”
 

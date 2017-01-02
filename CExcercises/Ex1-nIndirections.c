@@ -11,30 +11,41 @@ int* a1 = &a;
 int ** a2 = &a1;
 int result = nIndirections((void*)a2, 2);
 El resultado será 3.*/
+
 #include <stdio.h>
+#include <stdlib.h>
 
-int nIndirections(void* initial, unsigned int indirections);
+#define pointers(indirections) indirections**
 
-int main (int argc, char **argv)
-{
-	int a = 3;
+static int nIndirections(void* initial, unsigned int indirections);
+
+int main ()
+{	
+	unsigned int indirections = 3; /* To not use magical values*/
+	int a = 100;
 	int *a1 = &a;
 	int **a2 = &a1;
-	int result = nIndirections((void*)a2, 2);
-	printf("The result of 2 indirections is %i \n", result);
-	return 0;
+	int ***a3 = &a2;
+	int result = nIndirections((void*)a3, indirections);
+	printf("The result of 3 indirections is %i \n", result);
+	return EXIT_SUCCESS;
 }
 
-int nIndirections(void* initial, unsigned int indirections)
+static int nIndirections(void* initial, unsigned int indirections) /* A const void * points should not be modified, would fix better*/
 {
-	int resultFromIndirections = 0;
-	// Desreference a void pt throw an errpr becouse the compiler does not know the long of the object, so the cast is needed
-	int * intInitial = (int*) initial;
-	int i = 0;
-	for (i=0; i<indirections - 1; i++)
+	if (indirections == 0)
 	{
-		intInitial = (int*) *intInitial;
+		printf("Bad use of function nIndirections: indirections <= 0 is not a valid argument");
+		exit(EXIT_FAILURE);
+	}
+	/*Desreference a void pt throw an error because the compiler does't know the long of the object, so the cast is needed*/
+	int ** intInitial = (int *) initial; /*The type needed is a pointer of an int pointer so we avoid the core dump error*/ 
+	unsigned int desreferencesCount = 1; /* Not good using of i,j,k... doesn't give an idea about what the loop does*/
+	
+	for(; desreferencesCount < indirections; desreferencesCount++)
+	{
+		intInitial = *intInitial;
 	}
 
-	return (int) *intInitial;
+	return *intInitial;
 }
