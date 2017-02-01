@@ -58,7 +58,7 @@ const char* MESSAGES [LANGUAGES_LENGTH][MESSAGES_LENGTH] = {
 
 const char* getMessage(enum Languages language, enum Messages message);
 
-int main (int argc, char **argv)
+int main ()
 {
 	printf("Spanish, HelloWorld: %s \n", getMessage(Spanish, HelloWorld));
 	printf("Spanish, OutOfMemory: %s \n", getMessage(Spanish, OutOfMemory));
