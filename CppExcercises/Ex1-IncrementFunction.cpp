@@ -8,24 +8,18 @@ NT: Resolution oriented to pointers.*/
 
 using namespace std;
 
-void increment(int);
-
-int* globalPointer;
-size_t addresGlobal;
+void increment(int&);
 
 int main()
 {
 	int i = 2;
-	globalPointer = &i;
-	cout<<"First value Addres In function: " << &globalPointer << " and it's value: " << *globalPointer << endl;
     increment(i);	
-    cout<<"Value Addres In Main: "<<&i<<endl;
-	printf("%d\n", i); // Print 3
+    cout << "Value Addres In Main: " << i << endl;
+    return EXIT_SUCCESS;
 }
 
-void increment(int value)
+void increment(int& value)
 {
-    *globalPointer = value++;
-    cout<<"Second value Addres In function: " << &globalPointer << " and it's value: " << *globalPointer << endl;
+    value++;
 }
 

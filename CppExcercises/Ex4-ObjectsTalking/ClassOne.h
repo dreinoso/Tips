@@ -1,17 +1,16 @@
-#include <iostream> 
-#include <string>
+#ifndef CLASS_ONE_H
+#define CLASS_ONE_H
+
+#include "ClassTwo.h"
 
 namespace ClassOneNS
 {
-	class ClassOne {
-	    private:
-	    	std::string name;
-	    	int a, b; 
-	    public:
-	   	    void howAreYou();      
-	   	    ClassOne(std::string name)
-	   	    {
-	   	    	this->name = name;
-	   	    }
-	};
+    class ClassOne
+    {
+        public:
+            virtual ~ClassOne() {};
+            virtual void HowAreYou(ClassTwoNS::ClassTwo) const = 0;      
+    };
 }
+
+#endif // CLASS_ONE_H

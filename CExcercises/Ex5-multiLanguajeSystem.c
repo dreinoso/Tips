@@ -55,7 +55,7 @@ const char* MESSAGES [LANGUAGES_LENGTH][MESSAGES_LENGTH] = {
 	{"Hello World", "Out of Memory", "File not found"}
 };
 
-
+s
 const char* getMessage(enum Languages language, enum Messages message);
 
 int main (int argc, char **argv)

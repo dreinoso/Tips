@@ -11,5 +11,23 @@ declare_at ocasionará un error de ejecución. La memoria debe ser previamente r
 	int initialized[1];
 	declare_at(int, pepe, &initialized);
 
-NT: It could be any type of data but the array caus some errors that must be taken
+NT: It could be any type of data but the array cause some errors that must be taken
 care, that's why are in the example.*/
+
+#include <cstdio>
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+#define declare_at(type, name, address) type name = *(type*) &address;
+
+int main()
+{
+    int initialized[1];
+    declare_at(int, pepe, initialized);
+
+    //int* pepe = (int*) initialized;
+    printf("Pepe = %i \nPepe address: %lx \ninitialized address: %lx \n", pepe, &pepe, &initialized);
+    return EXIT_SUCCESS;
+}
